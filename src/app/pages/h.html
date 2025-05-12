@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Islamic Prayer App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #d4af37;
+            /* Gold color */
+            max-width: 430px;
+            margin: 0 auto;
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+
+        .status-bar {
+            background-color: #1a1a1a;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .network {
+            display: flex;
+            flex-direction: column;
+            font-size: 8px;
+            align-items: center;
+            margin-right: 5px;
+        }
+
+        .battery {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 15px;
+            align-items: center;
+        }
+
+        .islamic-date {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .location {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Prayer Section */
+        .prayer-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 15px;
+            align-items: center;
+        }
+
+        .prayer-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .weather-icon {
+            background-color: rgba(212, 175, 55, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .prayer-name {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .prayer-time {
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .time-remaining {
+            font-size: 24px;
+            opacity: 0.8;
+        }
+
+        .kaaba-illustration {
+            width: 40%;
+            opacity: 0.8;
+        }
+
+        .kaaba-img {
+            width: 100%;
+            height: auto;
+            opacity: 0;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            background-color: #1e1e1e;
+        }
+
+        .tab.active {
+            background-color: #d4af37;
+            color: #1a1a1a;
+        }
+
+        /* Quran Section */
+        .quran-section {
+            background-color: #1e1e1e;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px;
+        }
+
+        .quran-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .arabic-text {
+            text-align: center;
+            font-size: 22px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            direction: rtl;
+            font-family: 'Traditional Arabic', 'Scheherazade', serif;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 5px;
+            background-color: #333;
+            border-radius: 5px;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .progress {
+            position: absolute;
+            height: 100%;
+            width: 70%;
+            background-color: #d4af37;
+            border-radius: 5px;
+        }
+
+        .aya-count {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        .stat-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .stat-divider {
+            width: 1px;
+            background-color: rgba(212, 175, 55, 0.2);
+            margin: 0 15px;
+        }
+
+        .last-updated {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            background-color: #1a1a1a;
+            padding: 10px 0;
+            max-width: 430px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item.active {
+            opacity: 1;
+        }
+
+        .nav-item.active::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 3px;
+            background-color: #d4af37;
+            margin-top: 5px;
+        }
+
+        .quran-icon {
+            position: relative;
+            top: -15px;
+        }
+
+        .quran-circle {
+            width: 50px;
+            height: 50px;
+            background-color: #1a1a1a;
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 5px;
+        }
+
+        /* Home Indicator */
+        .home-indicator {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 5px;
+            background-color: white;
+            border-radius: 3px;
+            max-width: 430px;
+            margin: 0 auto;
+        }
+
+        /* Kaaba Illustration Placeholder */
+        .kaaba-illustration {
+            position: relative;
+        }
+
+        .kaaba-illustration::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath fill='%23d4af37' d='M100 20 L150 50 L150 150 L100 180 L50 150 L50 50 Z'/%3E%3Cpath fill='none' stroke='%23d4af37' stroke-width='2' d='M100 20 L100 180 M50 50 L150 50 M50 150 L150 150'/%3E%3Cpath fill='none' stroke='%23d4af37' stroke-width='1' d='M75 50 L75 150 M125 50 L125 150'/%3E%3Crect x='90' y='80' width='20' height='40' fill='%23d4af37' opacity='0.5'/%3E%3Cpath fill='none' stroke='%23d4af37' stroke-width='1' d='M85 40 L85 10 M115 40 L115 10'/%3E%3Ccircle cx='85' cy='10' r='5' fill='%23d4af37'/%3E%3Ccircle cx='115' cy='10' r='5' fill='%23d4af37'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="time">2:25</div>
+        <div class="status-icons">
+            <i class="fas fa-wifi"></i>
+            <div class="network">
+                <span>Vo</span>
+                <span>LTE</span>
+            </div>
+            <div class="network">
+                <span>Vo</span>
+                <span>NR</span>
+            </div>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-signal"></i>
+            <div class="battery">
+                <i class="fas fa-battery-half"></i>
+                <span>50%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="islamic-date">24 Safar 1446</div>
+        <div class="location">
+            <i class="fas fa-map-marker-alt"></i>
+            Mangaluru
+        </div>
+    </div>
+
+    <!-- Prayer Time Section -->
+    <div class="prayer-section">
+        <div class="prayer-info">
+            <div class="weather-icon">
+                <i class="fas fa-cloud"></i>
+            </div>
+            <div class="prayer-details">
+                <h1 class="prayer-name">Asr</h1>
+                <div class="prayer-time">03:41 pm</div>
+                <div class="time-remaining">- 01:15:04</div>
+            </div>
+        </div>
+        <div class="kaaba-illustration">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Media%20%2820%29-e8nNNRRDAtTnc2X3jmBjk0xMxBTVG3.jpeg"
+                alt="Kaaba Illustration" class="kaaba-img">
+        </div>
+    </div>
+
+    <!-- Read/Listen Tabs -->
+    <div class="tabs">
+        <div class="tab active">Read</div>
+        <div class="tab">Listen</div>
+    </div>
+
+    <!-- Quran Section -->
+    <div class="quran-section">
+        <div class="quran-header">
+            <div class="surah-name">Al-Baqara</div>
+            <div class="juzz">Juzz 2</div>
+        </div>
+        <div class="arabic-text">
+            وَكَذَٰلِكَ جَعَلْنَاكُمْ أُمَّةً وَسَطًا لِّتَكُونُوا شُهَدَاءَ عَلَى النَّاسِ وَيَكُونَ الرَّسُولُ
+            عَلَيْكُمْ شَهِيدًا ۗ وَمَا جَعَلْنَا الْقِبْلَةَ الَّتِي كُنتَ عَلَيْهَا إِلَّا لِنَعْلَمَ مَن يَتَّبِعُ
+            الرَّسُولَ مِمَّن يَنقَلِبُ عَلَىٰ
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div class="aya-count">Aya 143 of 286</div>
+            <div class="expand-icon">
+                <i class="fas fa-expand-alt"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Goals/Statistics Tabs -->
+    <div class="tabs">
+        <div class="tab active">Goals</div>
+        <div class="tab">Statistics</div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="stats-section">
+        <div class="stat-item">
+            <div class="stat-number">10</div>
+            <div class="stat-label">In Progress</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-number">10</div>
+            <div class="stat-label">Overdue</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-number">01</div>
+            <div class="stat-label">Completed</div>
+        </div>
+    </div>
+
+    <div class="last-updated">
+        <span>Last Updated</span>
+        <i class="fas fa-expand-alt"></i>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-mosque"></i>
+            <span>Prayers</span>
+        </div>
+        <div class="nav-item quran-icon">
+            <div class="quran-circle">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <span>Quran</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-compass"></i>
+            <span>Qibla</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-ellipsis-h"></i>
+            <span>More</span>
+        </div>
+    </div>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+</body>
+
+</html>

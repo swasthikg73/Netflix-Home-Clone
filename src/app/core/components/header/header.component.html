@@ -1,0 +1,19 @@
+<header class="bg-main sticky top-0 dark-nav flex items-center justify-between p-10 ">
+    <!-- App Logo -->
+    <div class="flex">
+        <img width="110" src="/images/pngwing.com.png" alt="netflix-Logo">
+        <ul class="flex items-center gap-5 ">
+            @for (item of navList; track $index) {
+            <li class="text-neutral-200 cursor-pointer text-sm font-extralight hover:text-gray-400 transition-[1]">
+                {{item}}</li>
+            }
+        </ul>
+    </div>
+    <div class="text-white flex items-center justify-between gap-5 ">
+        <a href=""> <span>Welcome, <strong>Swasthik G</strong></span> </a>
+        <img class="rounded-full" width="40"
+            src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt="usr-img">
+        &nbsp; | &nbsp; <a> <span>Signout</span> </a>
+
+    </div>
+</header>
