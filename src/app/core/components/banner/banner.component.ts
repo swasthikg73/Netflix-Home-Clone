@@ -20,6 +20,4 @@ export class BannerComponent implements OnChanges {
 
     }
   }
-
-
 }
